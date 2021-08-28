@@ -2,23 +2,12 @@ package queue
 
 import (
 	"fmt"
+
+	"github.com/harshshekhar15/queue/internal/node"
 )
 
-type Node struct {
-	val      int
-	nextNode *Node
-}
-
 type Queue struct {
-	rootNode *Node
-}
-
-// newNode return a new instance of Node
-func newNode(value int) *Node {
-	return &Node{
-		val:      value,
-		nextNode: nil,
-	}
+	rootNode *node.Node
 }
 
 // New returns a new instance of Queue
@@ -30,17 +19,17 @@ func New() *Queue {
 
 // Push adds a new node to the queue
 func (q *Queue) Push(value int) {
-	item := newNode(value)
+	item := node.New(value)
 
 	// Pushing element for the first time
 	if q.rootNode == nil {
 		q.rootNode = item
 	} else {
 		node := q.rootNode
-		for node.nextNode != nil {
-			node = node.nextNode
+		for node.NextNode != nil {
+			node = node.NextNode
 		}
-		node.nextNode = item
+		node.NextNode = item
 	}
 }
 
@@ -49,7 +38,7 @@ func (q *Queue) Pop() {
 	if q.rootNode == nil {
 		fmt.Println("Nothing to pop. Queue empty!")
 	} else {
-		q.rootNode = q.rootNode.nextNode
+		q.rootNode = q.rootNode.NextNode
 	}
 }
 
@@ -59,11 +48,11 @@ func (q *Queue) Print() {
 		fmt.Println("Queue is empty!!")
 	} else {
 		iterator := q.rootNode
-		for iterator.nextNode != nil {
-			fmt.Printf(" %d ->", iterator.val)
-			iterator = iterator.nextNode
+		for iterator.NextNode != nil {
+			fmt.Printf(" %d ->", iterator.Val)
+			iterator = iterator.NextNode
 		}
-		fmt.Printf(" %d ->", iterator.val)
+		fmt.Printf(" %d ->", iterator.Val)
 		fmt.Println()
 	}
 }
